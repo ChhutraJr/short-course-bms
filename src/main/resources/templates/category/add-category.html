@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/master}"
+
+>
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Create Category</title>
+
+    <style layout:fragment="style">
+        .tempting-azure-gradient {
+            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+        }
+
+        tr td {
+            vertical-align: middle !important;
+        }
+
+        .select-wrapper input.select-dropdown {
+            margin: 0;
+        }
+
+        .trigger {
+            padding: 1px 10px;
+            font-size: 12px;
+            font-weight: 400;
+            border-radius: 10px;
+            background-color: #eee;
+            color: #212121;
+            display: inline-block;
+            margin: 2px 5px;
+        }
+
+        .hoverable, .trigger {
+            transition: box-shadow 0.55s;
+            box-shadow: 0;
+        }
+
+        .hoverable:hover, .trigger:hover {
+            transition: box-shadow 0.45s;
+            box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+
+    </style>
+
+
+</head>
+
+<body>
+
+<!--Main layout-->
+<main layout:fragment="content">
+
+    <div class="container-fluid text-center">
+
+
+        <div class="card card-cascade narrower">
+
+            <!--Card image-->
+            <div class="view view-cascade gradient-card-header rgba-pink-strong narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+
+
+                <div>
+
+                </div>
+
+                <span style="font-size: 20px" class="white-text text-center">Create Category &nbsp;&nbsp; <i
+                        class="fa fa-book"></i></span>
+
+                <div>
+
+                </div>
+
+            </div>
+            <!--/Card image-->
+
+            <div class="px-4">
+
+                <!-- Extended material form grid -->
+                <form class="md-form" action="/category/create/submit" method="post" th:object="${category}">
+                    <!-- Grid row -->
+                    <div class="form-row">
+                        <!-- Grid column -->
+                        <div class="col-md-12">
+                            <!-- Material input -->
+                            <div class="md-form form-group">
+                                <input type="text" th:field="*{name}" class="form-control" id="inputTitle4MD">
+                                <label for="inputTitle4MD">Category Name</label>
+                                <!--<span class="text-left left float-left" style="color: red;" th:if="${#fields.hasErrors('title')}" th:text="${#fields.errors('title')[0]}"></span>-->
+                            </div>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-6">
+                            <!-- Material input -->
+                            <div class="md-form form-group">
+                                <input th:field="*{created_at}" placeholder="Selected date" type="text" id="datepicker"
+                                       class="form-control datepicker">
+                                <label for="datepicker">Choose Date</label>
+                            </div>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-6">
+                            <!-- Material input -->
+                            <div class="md-form form-group">
+                                <input placeholder="Selected time" type="text" id="input_starttime"
+                                       class="form-control timepicker">
+                                <label for="input_starttime">Choose Time (Not finish with database yet)</label>
+                            </div>
+                        </div>
+                        <!-- Grid column -->
+
+                    </div>
+                    <!-- Grid row -->
+                    <input type="hidden" th:field="*{id}">
+
+                    <button type="submit" class="btn btn-block btn-primary btn-md"><i class="fa fa-edit"></i>&nbsp;Create
+                    </button>
+                    <span class="mx-4"></span>
+                </form>
+                <!-- Extended material form grid -->
+
+
+            </div>
+        </div>
+        <hr>
+
+
+    </div>
+
+</main>
+<!--/Main layout-->
+
+<script layout:fragment="script" th:inline="javascript">
+    /*<![CDATA[*/
+
+    /*]]>*/
+
+
+    $(document).ready(function () {
+        $('input#input_text, textarea#textarea1').characterCounter();
+
+        // Data Picker Initialization
+        $('#datepicker').pickadate();
+    });
+
+    // Time Picker Initialization
+    $('#input_starttime').pickatime({
+        darktheme: true
+    });
+
+</script>
+</body>
+
+
+</html>

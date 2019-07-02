@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/master}"
+
+>
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title th:text="#{application.name}">BMS</title>
+
+    <style layout:fragment="style">
+        .tempting-azure-gradient {
+            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+        }
+
+
+        tr td{
+            vertical-align: middle !important;
+        }
+
+        .select-wrapper input.select-dropdown {
+            margin: 0;
+        }
+
+        .trigger {
+            padding: 1px 10px;
+            font-size: 12px;
+            font-weight: 400;
+            border-radius: 10px;
+            background-color: #eee;
+            color: #212121;
+            display: inline-block;
+            margin: 2px 5px;
+        }
+
+        .hoverable, .trigger {
+            transition: box-shadow 0.55s;
+            box-shadow: 0;
+        }
+
+        .hoverable:hover, .trigger:hover {
+            transition: box-shadow 0.45s;
+            box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+    </style>
+
+
+</head>
+
+<body>
+
+<!--Main layout-->
+<main layout:fragment="content">
+
+    <div class="container-fluid text-center">
+
+        <!--Top Table UI-->
+        <div class="card p-2 mb-5">
+
+            <!--Grid row-->
+            <div class="row">
+
+                <!--Grid column-->
+                <div class="col-lg-10 col-md-12">
+
+                    <form class="form-inline md-form mt-2 ml-2">
+                        <input class="form-control my-0" type="text" placeholder="Search" style="width: 89%">
+                        <button class="btn btn-sm btn-primary ml-2 px-1 btn-block" style="width: 8%"><i class="fa fa-search"></i></button>
+                    </form>
+
+                </div>
+                <!--Grid column-->
+
+                <div class="col-lg-2 col-md-12">
+                    <a href="/category/create" class="btn btn-primary btn-block"><i class="fa fa-edit"></i> Add New</a>
+                </div>
+
+
+
+            </div>
+            <!--Grid row-->
+
+        </div>
+        <!--Top Table UI-->
+
+
+
+        <div class="card card-cascade narrower">
+
+            <!--Card image-->
+            <div class="view view-cascade gradient-card-header rgba-pink-strong narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+
+
+                <div>
+
+                </div>
+
+                <span style="font-size: 20px" class="white-text text-center">List of All Category &nbsp;&nbsp; <i class="fa fa-cubes"></i></span>
+
+
+                <div>
+
+                </div>
+
+            </div>
+            <!--/Card image-->
+
+            <div class="px-4">
+
+                <div class="table" style="margin-bottom: 0px;">
+                    <!--Table-->
+                    <table class="table table-hover mb-0" th:if="${categories.size()} > 0">
+
+                        <!--Table head-->
+                        <thead>
+                        <tr>
+                            <th style="width: 50px;" class="th-lg" th:text="#{table.id}">#ID</th>
+                            <th class="th-lg" th:text="#{table.title}">Name</th>
+                            <th class="th-lg" th:text="#{table.date}">Created Date</th>
+                            <th class="th-lg" th:text="#{table.action}">Action</th>
+                        </tr>
+                        </thead>
+                        <!--Table head-->
+
+                        <!--Table body-->
+                        <tbody>
+                        <tr th:if="${categories} != null" th:each="category: ${categories}" th:object="${category}">
+                            <td style="text-align: left;">
+                                <span class="text-default">#[[*{id}]]</span>&nbsp;
+                            </td>
+                            <td th:text="*{name}">Title</td>
+                            <td th:text="*{#dates.format(created_at, 'dd-MMM-yyyy HH:mm:sa')}"></td>
+                            <td>
+                                <a th:href="@{/view/{id}(id=${category.getId()})}" type="button" class="btn-floating btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                                <a th:href="@{/update/{id}(id=${category.getId()})}" type="button" class="btn-floating btn-sm btn-success"><i class="fa fa-edit"></i></a>
+                                <a th:attr="data-id=${category.getId()}" type="button" class=" delete-btn btn-floating btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                        <!--Table body-->
+                    </table>
+                    <!--Table-->
+
+                    <div th:unless="${categories.size()} > 0" class="text-danger">No Book Found!!!</div>
+                </div>
+
+                <hr class="my-0">
+
+                <!--Bottom Table UI-->
+                <div class="d-flex justify-content-between" th:if="${categories.size()} > 0">
+
+                    <!--Name-->
+                    <select class="mdb-select colorful-select dropdown-default mt-2 hidden-md-down">
+                        <option value="" disabled>Rows number</option>
+                        <option value="1" selected>10 rows</option>
+                        <option value="2">25 rows</option>
+                        <option value="3">50 rows</option>
+                        <option value="4">100 rows</option>
+                    </select>
+
+                    <!--Pagination -->
+                    <nav class="my-4">
+                        <ul class="pagination pagination-circle pg-blue mb-0">
+
+                            <!--First-->
+                            <li class="page-item disabled clearfix d-none d-md-block"><a class="page-link">First</a>
+                            </li>
+
+                            <!--Arrow left-->
+                            <li class="page-item disabled">
+                                <a class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+
+                            <!--Numbers-->
+                            <li class="page-item active"><a class="page-link">1</a></li>
+                            <li class="page-item"><a class="page-link">2</a></li>
+                            <li class="page-item"><a class="page-link">3</a></li>
+                            <li class="page-item"><a class="page-link">4</a></li>
+                            <li class="page-item"><a class="page-link">5</a></li>
+
+                            <!--Arrow right-->
+                            <li class="page-item">
+                                <a class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+
+                            <!--First-->
+                            <li class="page-item clearfix d-none d-md-block"><a class="page-link">Last</a></li>
+
+                        </ul>
+                    </nav>
+                    <!--/Pagination -->
+
+                </div>
+                <!--Bottom Table UI-->
+
+            </div>
+        </div>
+        <hr>
+
+
+    </div>
+
+</main>
+<!--/Main layout-->
+
+</body>
+<script layout:fragment="script">
+    $('body').on('click', '.delete-btn', function () {
+        var data_id = $(this).attr("data-id");
+
+        if (confirm("Do you want to delete?")) {
+            window.location = "http://localhost:1123/remove/" + data_id;
+        }
+
+    });
+</script>
+
+</html>
